@@ -118,6 +118,40 @@ class Solution:
         result += right[j:]
         return result
 
+
+    # 堆排序,小顶堆
+    def sort9(self,lists):
+        size = len(lists)
+        self.build_heap(lists, size)
+        for i in range(0, size)[::-1]:
+            lists[0], lists[i] = lists[i], lists[0]
+            self.adjust_heap(lists, 0, i)
+        return lists
+
+    # 调整堆
+    def adjust_heap(self,lists, i, size):
+        lchild = 2 * i + 1
+        rchild = 2 * i + 2
+        max = i
+        if i < size / 2:
+            if lchild < size and lists[lchild] > lists[max]:
+                max = lchild
+            if rchild < size and lists[rchild] > lists[max]:
+                max = rchild
+            if max != i:
+                lists[max], lists[i] = lists[i], lists[max]
+                self.adjust_heap(lists, max, size)
+
+    # 创建堆
+    def build_heap(self,lists, size):
+        for i in range(0, (size / 2))[::-1]:    # 将0到size/2-1 倒序赋值
+            self.adjust_heap(lists, i, size)
+
+
+
+
+
+
     def Permutation(self, ss):    # 牛客网
         if not ss:
             return []
@@ -130,8 +164,8 @@ class Solution:
 
 if __name__ == "__main__":
     k=Solution()
-    list=[49,38,65,97,76,13,27,49,55,4]
-    #print k.sort8(list)
+    list=[49,38,65,97,76,13,27,49]
+    print k.sort9(list)
 
 
     # ss = '123'        # 迭代器，itertools。permutations(p[,r]);返回p中任意取r个元素做排列的元组的迭代器
@@ -140,4 +174,5 @@ if __name__ == "__main__":
     #     tmp = ''.join(i)
     #     res.append(tmp)
     # print res
+
 
